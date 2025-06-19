@@ -1,0 +1,61 @@
+# -------------------------------
+# General
+# -------------------------------
+.DS_Store
+Thumbs.db
+
+# Editor backups / swap
+*~
+*.swp
+*.swo
+
+# -------------------------------
+# Python
+# -------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Virtual environments
+env/
+venv/
+.venv/
+ENV/
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+.eggs/**
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage
+.coverage
+.coverage.*
+.tox/
+.nox/
+.pytest_cache/
+htmlcov/
+coverage/
+
+# Type checker cache
+.mypy_cache/
+
+# -------------------------------
+# IDE / Editor directories
+# -------------------------------
+.vscode/
+.idea/
+
+# -------------------------------
+# Project-specific secrets / artifacts
+# -------------------------------
+credentials.json
+token.json 
