@@ -75,7 +75,15 @@ def authenticate() -> Credentials:
     # Refresh or initiate new OAuth flow if needed.
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
-            creds.refresh(Request())
+            try:
+                creds.refresh(Request())
+            except google.auth.exceptions.RefreshError:
+                # Token revoked or expired beyond refresh -> discard and start new flow.
+                try:
+                    TOKEN_PATH.unlink(missing_ok=True)
+                except FileNotFoundError:
+                    pass
+                creds = None  # trigger new OAuth flow below
         else:
             if not CREDENTIALS_PATH.exists():
                 raise FileNotFoundError(
@@ -85,7 +93,8 @@ def authenticate() -> Credentials:
             creds = cast(Credentials, flow.run_local_server(port=0))
 
         # Cache the credentials for next run.
-        TOKEN_PATH.write_text(creds.to_json())
+        if creds is not None:
+            TOKEN_PATH.write_text(creds.to_json())
 
     # At this point creds is guaranteed to be initialized.
     assert creds is not None
